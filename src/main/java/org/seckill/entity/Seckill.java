@@ -6,7 +6,7 @@ public class Seckill {
     private long seckillID;
     private String name;
     private int number;
-    private Date createTime = new Date();
+    private Date createTime ;
     private Date startTime;
     private Date endTime;
 

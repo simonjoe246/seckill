@@ -17,7 +17,7 @@
     <select id="queryById" resultType="Seckill" parameterType="long">
         <!-- 因为开启驼峰命名法转换配置，所以不用转换别名为 seckillId -->
         select
-          seckill_id, name, number, start_time, end_time
+          seckill_id, name, number, start_time, end_time, create_time
         from
           seckill
         where
