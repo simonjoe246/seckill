@@ -44,6 +44,14 @@ public class SuccessKilled {
         this.createTime = createTime;
     }
 
+    public Seckill getSeckill() {
+        return seckill;
+    }
+
+    public void setSeckill(Seckill seckill) {
+        this.seckill = seckill;
+    }
+
     @Override
     public String toString() {
         return "SuccessKilled{" +
