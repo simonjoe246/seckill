@@ -1,6 +1,7 @@
 package org.seckill.dto;
 
 import org.seckill.entity.SuccessKilled;
+import org.seckill.enums.SeckillStateEnum;
 
 /**
  * 封装执行秒杀后的结果
@@ -17,18 +18,17 @@ public class SeckillExecution {
 
     private SuccessKilled successKilled;
 
-    public SeckillExecution(long seckillId, long userPhone, int state, String stateInfo) {
+    public SeckillExecution(long seckillId, long userPhone, SeckillStateEnum stateEnum) {
         this.seckillId = seckillId;
         this.userPhone = userPhone;
-        this.state = state;
-        this.stateInfo = stateInfo;
+        this.state = stateEnum.getState();
     }
 
-    public SeckillExecution(long seckillId, long userPhone, int state, String stateInfo, SuccessKilled successKilled) {
+    public SeckillExecution(long seckillId, long userPhone, SeckillStateEnum stateEnum, SuccessKilled successKilled) {
         this.seckillId = seckillId;
         this.userPhone = userPhone;
-        this.state = state;
-        this.stateInfo = stateInfo;
+        this.state = stateEnum.getState();
+        this.stateInfo = stateEnum.getStateInfo();
         this.successKilled = successKilled;
     }
 
