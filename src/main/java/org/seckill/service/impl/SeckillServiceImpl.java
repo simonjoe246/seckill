@@ -13,16 +13,23 @@ import org.seckill.exception.SeckillException;
 import org.seckill.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class SeckillServiceImpl implements SeckillService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    // 注入 Service 的依赖
+    @Autowired
     private SeckillDao seckillDao;
 
+    @Autowired
     private SuccessKilledDao successKilledDao;
 
     private String salt = "fhjwerghwuigwei#$%#$%ij4ui43i495";
@@ -43,6 +50,7 @@ public class SeckillServiceImpl implements SeckillService {
         if (seckill == null) {
             return new Exposer(false, seckillId);
         }
+        // 获取系统当前时间
         Date nowTime = new Date();
         Date startTime = seckill.getStartTime();
         Date endTime = seckill.getEndTime();
@@ -51,7 +59,7 @@ public class SeckillServiceImpl implements SeckillService {
             return new Exposer(false, seckillId, nowTime.getTime(), startTime.getTime(), endTime.getTime());
         }
         // 转化特定字符串的过程，不可逆
-        String md5 = getMD5(seckillId); //TODO
+        String md5 = getMD5(seckillId);
         return new Exposer(true, md5, seckillId);
     }
 
@@ -62,9 +70,21 @@ public class SeckillServiceImpl implements SeckillService {
     }
 
     @Override
+    @Transactional
+    /**
+     * 使用注解控制事务方法的优点
+     * 1. 开发团队达成一致约定，明确标注事务方法的编程风格
+     * 2. 保证事务方法的执行时间尽可能短，不要穿插其他网络操作 RPC/HTTP 请求或者剥离到事务方法外部（如必须，可以在上层封装）
+     * 3. 不是所有的方法都需要成事务，比如只有一条修改操、只读操作不需要事务控制
+     */
     public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5) throws SeckillException, RepeatKillException, SeckillCloseException {
+        // 检查传入 md5 是否正确
+        if (md5 == null || !md5.equals(getMD5(seckillId))) {
+            throw new SeckillException("seckill data rewrite");
+        }
+        // 执行秒杀逻辑，减库存 + 记录购买行为
+        Date nowTime = new Date();
         try {
-            Date nowTime = new Date();
             int updateCounts = seckillDao.reduceNumber(seckillId, nowTime);
             // 没有更新记录，秒杀结束
             if (updateCounts <= 0) {

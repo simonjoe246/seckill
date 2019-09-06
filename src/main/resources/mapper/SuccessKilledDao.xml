@@ -7,9 +7,9 @@
         <!-- 主键冲突（重复），忽略, 不报错 -->
         insert ignore into
             success_killed
-            (seckill_id, user_phone)
+            (seckill_id, user_phone, state)
         values
-            (#{seckillId},#{userPhone})
+            (#{seckillId},#{userPhone}, 1)
     </insert>
 
     <select id="queryByIdWithSeckill" resultType="SuccessKilled">

@@ -32,6 +32,17 @@ public class SeckillExecution {
         this.successKilled = successKilled;
     }
 
+    @Override
+    public String toString() {
+        return "SeckillExecution{" +
+                "seckillId=" + seckillId +
+                ", userPhone=" + userPhone +
+                ", state=" + state +
+                ", stateInfo='" + stateInfo + '\'' +
+                ", successKilled=" + successKilled +
+                '}';
+    }
+
     public long getSeckillId() {
         return seckillId;
     }
