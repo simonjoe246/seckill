@@ -18,6 +18,12 @@ public class SeckillExecution {
 
     private SuccessKilled successKilled;
 
+    public SeckillExecution(long seckillId, SeckillStateEnum stateEnum) {
+        this.seckillId = seckillId;
+        this.state = stateEnum.getState();
+        this.stateInfo = stateEnum.getStateInfo();
+    }
+
     public SeckillExecution(long seckillId, long userPhone, SeckillStateEnum stateEnum) {
         this.seckillId = seckillId;
         this.userPhone = userPhone;
@@ -31,6 +37,7 @@ public class SeckillExecution {
         this.stateInfo = stateEnum.getStateInfo();
         this.successKilled = successKilled;
     }
+
 
     @Override
     public String toString() {
