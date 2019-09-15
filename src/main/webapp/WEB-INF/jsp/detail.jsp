@@ -44,6 +44,7 @@
 
                 <div class="modal-footer">
                     <%-- 验证信息 --%>
+                    <%-- span 用于展示出错信息 --%>
                     <span id="killPhoneMessage" class="glyphicon"> </span>
                     <button type="button" id="killPhoneBtn" class="btn btn-success">
                         <span class="glyphicon glyphicon-phone"></span>
@@ -73,7 +74,7 @@
     $(function () {
         // 使用 EL 表达式传入参数
         seckill.detail.init({
-            seckillId: ${seckill.seckillId.time}, // 毫秒
+            seckillId: ${seckill.seckillId}, // 毫秒
             startTime: ${seckill.startTime.time},
             endTime: ${seckill.endTime.time}
         });
