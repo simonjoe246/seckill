@@ -54,11 +54,10 @@ public class SeckillController {
     }
 
     // ajax json
-    @RequestMapping(value = "/{seckillId}/exposer",
-            method = RequestMethod.POST,
-            produces = {"application/json;charset=UTF-8"})
-
     // 返回的封装成 json 类型
+    @RequestMapping(value = "/{seckillId}/exposer",
+            method = RequestMethod.GET,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public SeckillResult<Exposer> exposer(@PathVariable Long seckillId) {
         SeckillResult<Exposer> result;
@@ -79,7 +78,7 @@ public class SeckillController {
     @ResponseBody
     public SeckillResult<SeckillExecution> execute(@PathVariable("seckillId") Long seckillId,
                                                    @PathVariable("md5") String md5,
-                                                   @CookieValue(value = "killPhone", required = false) Long userPhone) {
+                                                   @CookieValue(value = "userPhone", required = false) Long userPhone) {
         // 还可以用 spring-mvc 的验证
         if (userPhone == null) {
             return new SeckillResult<SeckillExecution>(false, "未注册");
@@ -90,16 +89,16 @@ public class SeckillController {
         }
         catch (RepeatKillException e) {
             SeckillExecution seckillExecution = new SeckillExecution(seckillId, SeckillStateEnum.REPEAT_KILL);
-            return new SeckillResult<SeckillExecution>(false, seckillExecution);
+            return new SeckillResult<SeckillExecution>(true, seckillExecution);
         }
         catch (SeckillCloseException e) {
             SeckillExecution seckillExecution = new SeckillExecution(seckillId, SeckillStateEnum.END);
-            return new SeckillResult<SeckillExecution>(false, seckillExecution);
+            return new SeckillResult<SeckillExecution>(true, seckillExecution);
         }
         catch (Exception e) {
             logger.error(e.getMessage(), e);
             SeckillExecution seckillExecution = new SeckillExecution(seckillId, SeckillStateEnum.INNER_ERROR);
-            return new SeckillResult<SeckillExecution>(false, seckillExecution);
+            return new SeckillResult<SeckillExecution>(true, seckillExecution);
         }
     }
 

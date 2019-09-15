@@ -3,6 +3,7 @@ package org.seckill.dto;
 // 所有 ajax 请求返回类型，封装 json 的结果
 public class SeckillResult<T> {
 
+    // 表示请求是否成功
     private boolean success;
 
     private T data;
