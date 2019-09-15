@@ -64,9 +64,9 @@
 
 <!-- 使用 CDN 获取公共js http://www.bootcdn.cn/ -->
 <!-- jQuery Cookie 插件 -->
-<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <!-- jQuery 倒计时插件 -->
-<script src="http:..cdn.bootcss.com/jquery.countdown/2.1.0/jquery.countdown.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery.countdown/2.1.0/jquery.countdown.min.js"></script>
 
 <script src="/resources/script/seckill.js" type="text/javascript"></script>
 

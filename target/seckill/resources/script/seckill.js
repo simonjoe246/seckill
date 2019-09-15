@@ -4,7 +4,9 @@
 var seckill = {
     // 封装秒杀相关 ajax 的 url
     URL: {
-
+        now: function () {
+            return '/seckill/time/now';
+        }
     },
     // 验证手机号
     validatePhone: function (phone) {
@@ -13,6 +15,31 @@ var seckill = {
         }
         else {
             return false;
+        }
+    },
+    // 秒杀
+    handlerSeckill: function() {
+    },
+    // 倒计时
+    countDown: function (seckillId, nowTime, startTime, endTime) {
+        console.log(seckillId + '_' + nowTime + '_' + startTime + '_' + endTime);
+        var seckillBox = $('#seckill-box');
+        // 秒杀结束
+        if (nowTime > endTime) {
+            seckillBox.html('秒杀结束');
+        }
+        // 秒杀未开始，计时事件绑定
+        else if (nowTime < startTime) {
+            var killTime = new Date(startTime + 1000); // 防止时间偏移
+            seckillBox.countdown(killTime, function (event) {
+                // 时间格式
+                var format = event.strftime('秒杀倒计时：%D天 %H时 %M分 %S秒 ');
+                seckillBox.html(format);
+            }).on('finish countdown', handler());
+        }
+        // 秒杀已经开始
+        else {
+            handler();
         }
     },
     // 详情页秒杀逻辑
@@ -47,9 +74,22 @@ var seckill = {
                 });
             }
             // 从 cookie 获取到正确手机号，则表明已登录
+            // 计时交互
             var startTime = params['startTime'];
             var endTime = params['startTime'];
             var seckillId = params['seckillId'];
+            // ajax 请求服务器时间，第二个参数为请求参数
+            $.get(seckill.URL.now(), {}, function (result) {
+                if (result && result['success']) {
+                    var nowTime = result['data'];
+                    // 时间判断，计时交互
+                    seckill.countDown(seckillId, nowTime, startTime, endTime);
+                }
+                else {
+                    console.log('result' + result);
+                    alert('result' + result);
+                }
+            });
         }
     }
 }

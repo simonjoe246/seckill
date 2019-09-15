@@ -60,7 +60,7 @@ public class SeckillController {
 
     // 返回的封装成 json 类型
     @ResponseBody
-    public SeckillResult<Exposer> exposer(Long seckillId) {
+    public SeckillResult<Exposer> exposer(@PathVariable Long seckillId) {
         SeckillResult<Exposer> result;
         try {
             Exposer exposer = seckillService.exposeSeckillUrl(seckillId);
